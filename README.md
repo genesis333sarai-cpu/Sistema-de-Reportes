@@ -8,6 +8,7 @@ Python + NiceGUI + SQLModel · Arquitectura hexagonal (monolito modular)
 python -m venv .venv
 # Windows: .venv\Scripts\activate      Linux/Mac: source .venv/bin/activate
 pip install -r requirements.txt
+python corregir_vbuild.py
 python main.py            # abre http://localhost:8080
 pytest -v                 # pruebas de dominio y casos de uso
 ```
