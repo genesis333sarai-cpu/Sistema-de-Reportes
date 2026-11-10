@@ -6,3 +6,6 @@ __pycache__/
 .idea/
 .vscode/
 .nicegui/
+vinto.db
+uploads/*
+!uploads/.gitkeep
