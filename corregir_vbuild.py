@@ -1,33 +1,45 @@
 from pathlib import Path
 import importlib.util
 
-archivo = Path(".venv/Lib/site-packages/vbuild/__init__.py")
+spec = importlib.util.find_spec("vbuild")
 
-if not archivo.exists():
-    raise FileNotFoundError("No se encontró vbuild. Instala primero las dependencias.")
+if spec is None or spec.origin is None:
+    raise FileNotFoundError("No se encontró vbuild.")
+
+archivo = Path(spec.origin)
 
 contenido = archivo.read_text(encoding="utf-8")
 
-if "pkgutil.find_loader" in contenido:
-    contenido = contenido.replace(
-        "import re, os, json, glob, itertools, traceback, subprocess, pkgutil",
-        "import re, os, json, glob, itertools, traceback, subprocess, pkgutil\nimport importlib.util"
-    )
+# Agregar el import si falta
+if "import importlib" not in contenido:
+    lineas = contenido.splitlines()
 
-    contenido = contenido.replace(
-        'pkgutil.find_loader("lesscpy")',
-        'importlib.util.find_spec("lesscpy")'
-    )
-    contenido = contenido.replace(
-        'pkgutil.find_loader("scss")',
-        'importlib.util.find_spec("scss")'
-    )
-    contenido = contenido.replace(
-        'pkgutil.find_loader("closure")',
-        'importlib.util.find_spec("closure")'
-    )
+    # insertar después del último import
+    indice = 0
+    for i, linea in enumerate(lineas):
+        if linea.startswith("import ") or linea.startswith("from "):
+            indice = i
 
-    archivo.write_text(contenido, encoding="utf-8")
-    print("Corrección de vbuild aplicada correctamente.")
-else:
-    print("vbuild ya está corregido.")
+    lineas.insert(indice + 1, "import importlib")
+
+    contenido = "\n".join(lineas)
+
+# Compatibilidad con versiones antiguas
+contenido = contenido.replace(
+    'pkgutil.find_loader("lesscpy")',
+    'importlib.util.find_spec("lesscpy")'
+)
+
+contenido = contenido.replace(
+    'pkgutil.find_loader("scss")',
+    'importlib.util.find_spec("scss")'
+)
+
+contenido = contenido.replace(
+    'pkgutil.find_loader("closure")',
+    'importlib.util.find_spec("closure")'
+)
+
+archivo.write_text(contenido, encoding="utf-8")
+
+print("vbuild corregido.")

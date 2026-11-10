@@ -1,0 +1,26 @@
+
+services:
+  sistema-reportes:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: sistema-reportes
+
+    ports:
+      - "8080:8080"
+
+    environment:
+      PORT: "8080"
+      VINTO_DB: "sqlite:////app/vinto.db"
+      VINTO_UPLOADS: "/app/uploads"
+      VINTO_SECRET: "${VINTO_SECRET:-cambia-esta-clave-en-produccion}"
+
+    volumes:
+      # Mantener la base de datos en Windows
+      - ./vinto.db:/app/vinto.db
+
+      # Mantener las evidencias y archivos subidos
+      - ./uploads:/app/uploads
+
+    restart: "no"

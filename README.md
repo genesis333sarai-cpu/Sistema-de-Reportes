@@ -3,6 +3,15 @@
 Taller de Programación · Universidad Adventista de Bolivia
 Python + NiceGUI + SQLModel · Arquitectura hexagonal (monolito modular)
 
+## Ejecutar con Docker
+Requiere Docker Desktop en ejecución.
+
+    docker compose up --build
+
+Abre http://localhost:8080. Los datos (base de datos y fotos) se guardan en el
+volumen `vinto_data`. Para detener: `Ctrl + C` o `docker compose down`.
+Pruebas: `docker compose run --rm vinto pytest -v`
+
 ## Ejecutar
 ```bash
 python -m venv .venv

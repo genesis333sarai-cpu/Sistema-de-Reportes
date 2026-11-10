@@ -15,6 +15,17 @@ contenedor = construir(
 app.add_static_files("/uploads", contenedor.carpeta_uploads)   # para mostrar las evidencias
 registrar_paginas(contenedor)
 
-if __name__ in {"__main__", "__mp_main__"}:
-    ui.run(title="Incidentes Vinto", favicon="🌿", port=int(os.getenv("PORT", "8080")),
-           storage_secret=os.getenv("VINTO_SECRET", "cambie-esta-clave-en-produccion"), reload=False)
+print("INICIANDO SERVIDOR NICEGUI")
+if __name__ == "__main__":
+    ui.run(
+        title="Incidentes Vinto",
+        favicon="🌿",
+        host="0.0.0.0",
+        port=int(os.getenv("PORT", "8080")),
+        storage_secret=os.getenv(
+            "VINTO_SECRET",
+            "cambie-esta-clave-en-produccion"
+        ),
+        reload=False
+    )
+    
