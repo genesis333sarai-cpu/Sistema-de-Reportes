@@ -20,7 +20,14 @@ services:
       # Mantener la base de datos en Windows
       - ./vinto.db:/app/vinto.db
 
-      # Mantener las evidencias y archivos subidos
+      # Mantener las evidencias en Windows
       - ./uploads:/app/uploads
 
+      # Volumen nombrado de Docker
+      - vinto_data:/app/data
+
     restart: "no"
+
+volumes:
+  vinto_data:
+    name: proyecto_segunda_fase_sistema_de_reportes_vinto_data
